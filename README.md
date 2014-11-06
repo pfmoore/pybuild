@@ -104,3 +104,5 @@ This is intended as a convenience for builds that link to C libraries, but are
 written with an assumption that such libraries have been "installed centrally"
 (which is the norm on Unix, but not on Windows where there is normally no
 central install location).
+
+The Python environments have pip, setuptools, and wheel installed.
