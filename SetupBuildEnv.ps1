@@ -114,7 +114,7 @@ function UnpackISO () {
     & "C:\Program Files\7-zip\7z.exe" x -oInstallers\SDK Installers\GRMSDKX_EN_DVD.iso
 }
 
-function InstallSoftware () {
+function InstallMSFiles () {
     RunInstaller ".NET Framework" Installers\dotNetFx40_Full_x86_x64.exe '/q','/norestart'
     RunInstaller "SDK 7.1" Installers\SDK\setup.exe '-q','-params:ADDLOCAL=ALL'
     RunInstaller "VC for Python" Installers\VCForPython27.msi '/qn'
@@ -216,7 +216,7 @@ function Main () {
     DownloadAll
     Install7Zip
     UnpackISO
-    InstallSoftware
+    InstallMSFiles
     InstallPython
     InstallPythonPackages
     WriteSiteCustomize
