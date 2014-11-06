@@ -15,6 +15,14 @@ function CheckIfElevated () {
     return $IsAdmin
 }
 
+function CheckIf64bit () {
+    $is64bit = ($env:PROCESSOR_ARCHITECTURE -eq "AMD64")
+    if (-not $is64bit) {
+        Write-Warning "This script is only applicable on a 64-bit OS."
+    }
+    return $is64bit
+}
+
 function DownloadFile ($target, $url) {
     $webclient = New-Object System.Net.WebClient
     $filename = ($url -split '/')[-1]
@@ -181,6 +189,10 @@ function TestInstallation () {
 function Main () {
     if (-not (CheckIfElevated)) {
         Write-Host -Fore Red "This script must be run as administrator"
+        return
+    }
+    if (-not (CheckIf64bit)) {
+        Write-Host -Fore Red "This script must be run on a 64 bit OS"
         return
     }
     DownloadAll
