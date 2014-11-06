@@ -65,6 +65,21 @@ function RunInstaller ([String]$prog, [String]$installer, [String[]]$argv) {
     Write-Host "Completed"
 }
 
+Function AddPathEntry ($dir) {
+    if (!(Test-Path $dir)) {
+        Write-Host -fore Red "$dir does not exist, cannot be added to PATH"
+        return
+    }
+
+    $path = [Environment]::GetEnvironmentVariable("PATH", "Machine")
+    if ($path | Select-String -SimpleMatch $dir) {
+        return
+    }
+
+    $path = $path + ';' + $dir
+    [Environment]::SetEnvironmentVariable("PATH", $path, "Machine")
+}
+
 function RunPythonInstaller ($ver) {
     $v2 = (($ver -split '\.')[0,1] -join '')
     # Must do 64-bit before 32-bit because of a bug installing 32-bit first
@@ -108,6 +123,13 @@ function DownloadAll () {
 
 function Install7Zip () {
     RunInstaller "7-Zip" Installers\7z920-x64.msi '/qn'
+}
+
+function InstallVCS () {
+    RunInstaller "Mercurial" Installers\mercurial-3.2.0-x64.msi '/qn'
+    $7z = "C:\Program Files\7-zip\7z.exe"
+    & $7z x "-oC:\Program Files\Git" Installers\PortableGit-1.9.4-preview20140929.7z >$null
+    AddPathEntry "C:\Program Files\Git\cmd"
 }
 
 function UnpackISO () {
@@ -221,6 +243,7 @@ function Main () {
     InstallPythonPackages
     WriteSiteCustomize
     CreateLibDirectory
+    InstallVCS
 
     Write-Host -NoNewline "To test, run "
     Write-Host -Fore Yellow "TestInstallation"
