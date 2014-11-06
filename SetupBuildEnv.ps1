@@ -1,3 +1,8 @@
+[CmdletBinding()]
+param (
+    [Switch]$NoRun
+)
+
 function CheckIfElevated () {
     $CurrentLogin = [System.Security.Principal.WindowsIdentity]::GetCurrent()
     $secprincipal = New-Object System.Security.Principal.WindowsPrincipal($CurrentLogin)
@@ -189,4 +194,8 @@ function Main () {
 
     Write-Host -NoNewline "To test, run "
     Write-Host -Fore Yellow "TestInstallation"
+}
+
+if (! $NoRun) {
+    Main
 }
