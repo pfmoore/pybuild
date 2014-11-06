@@ -74,18 +74,36 @@ function RunPythonInstaller ($ver) {
 
 $pyversions = ('2.7.8', '3.3.5', '3.4.2')
 
-function DownloadAll () {
+function Download7Zip () {
     DownloadFile Installers http://downloads.sourceforge.net/sevenzip/7z920-x64.msi
+}
+
+function DownloadVCS () {
+    DownloadFile Installers http://mercurial.selenic.com/release/windows/mercurial-3.2.0-x64.msi
+    DownloadFile Installers https://github.com/msysgit/msysgit/releases/download/Git-1.9.4-preview20140929/PortableGit-1.9.4-preview20140929.7z
+}
+
+function DownloadMSFiles () {
     DownloadFile Installers http://download.microsoft.com/download/F/1/0/F10113F5-B750-4969-A255-274341AC6BCE/GRMSDKX_EN_DVD.iso
     DownloadFile Installers http://download.microsoft.com/download/9/5/A/95A9616B-7A37-4AF6-BC36-D6EA96C8DAAE/dotNetFx40_Full_x86_x64.exe
     DownloadFile Installers http://download.microsoft.com/download/7/9/6/796EF2E4-801B-4FC4-AB28-B59FBF6D907B/VCForPython27.msi
     DownloadFile Installers http://download.microsoft.com/download/d/d/9/dd9a82d0-52ef-40db-8dab-795376989c03/vcredist_x86.exe
     DownloadFile Installers http://download.microsoft.com/download/2/d/6/2d61c766-107b-409d-8fba-c39e61ca08e8/vcredist_x64.exe
+}
+
+function DownloadPython() {
     foreach ($ver in $pyversions) {
         DownloadFile Installers "https://www.python.org/ftp/python/$ver/python-$ver.msi"
         DownloadFile Installers "https://www.python.org/ftp/python/$ver/python-$ver.amd64.msi"
     }
     DownloadFile Installers https://bootstrap.pypa.io/get-pip.py
+}
+
+function DownloadAll () {
+    Download7Zip
+    DownloadVCS
+    DownloadMSFiles
+    DownloadPython
 }
 
 function Install7Zip () {
