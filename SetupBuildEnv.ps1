@@ -1,6 +1,7 @@
 [CmdletBinding()]
 param (
-    [Switch]$NoRun
+    [Switch]$NoRun,
+    [Switch]$DownloadOnly
 )
 
 function CheckIfElevated () {
@@ -133,6 +134,14 @@ function InstallVCS () {
 }
 
 function UnpackISO () {
+    if (Test-Path Installers\SDK) {
+        Write-Host "SDK already unpacked"
+        return
+    }
+    if (! (Test-Path "C:\Program Files\7-Zip\7z.exe")) {
+        Write-Host -Fore Red "7-Zip is not available - unpack skipped"
+        return
+    }
     & "C:\Program Files\7-zip\7z.exe" x -oInstallers\SDK Installers\GRMSDKX_EN_DVD.iso
 }
 
@@ -249,6 +258,9 @@ function Main () {
     Write-Host -Fore Yellow "TestInstallation"
 }
 
-if (! $NoRun) {
+if ($DownloadOnly) {
+    DownloadAll
+    UnpackISO
+} elseif (! $NoRun) {
     Main
 }
