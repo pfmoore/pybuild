@@ -115,11 +115,16 @@ function DownloadPython() {
     DownloadFile Installers https://bootstrap.pypa.io/get-pip.py
 }
 
+function DownloadOthers() {
+    DownloadFile Installers http://download.tuxfamily.org/notepadplus/6.6.9/npp.6.6.9.Installer.exe
+}
+
 function DownloadAll () {
     Download7Zip
     DownloadVCS
     DownloadMSFiles
     DownloadPython
+    DownloadOthers
 }
 
 function Install7Zip () {
@@ -131,6 +136,10 @@ function InstallVCS () {
     $7z = "C:\Program Files\7-zip\7z.exe"
     & $7z x "-oC:\Program Files\Git" Installers\PortableGit-1.9.4-preview20140929.7z >$null
     AddPathEntry "C:\Program Files\Git\cmd"
+}
+
+function InstallOthers {
+    RunInstaller "Notepad++" Installers\npp.6.6.9.Installer.exe '/S'
 }
 
 function UnpackISO () {
@@ -253,6 +262,7 @@ function Main () {
     WriteSiteCustomize
     CreateLibDirectory
     InstallVCS
+    InstallOthers
 
     Write-Host -NoNewline "To test, run "
     Write-Host -Fore Yellow "TestInstallation"
