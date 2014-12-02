@@ -95,7 +95,7 @@ function Download7Zip () {
 }
 
 function DownloadVCS () {
-    DownloadFile Installers http://mercurial.selenic.com/release/windows/mercurial-3.2.0-x64.msi
+    DownloadFile Installers http://mercurial.selenic.com/release/windows/mercurial-3.2.1-x64.msi
     DownloadFile Installers https://github.com/msysgit/msysgit/releases/download/Git-1.9.4-preview20140929/PortableGit-1.9.4-preview20140929.7z
 }
 
